@@ -4,6 +4,13 @@ import SelectBatch from "./SelectBatch";
 import SelectAge from "./SelectAge";
 import useForm from "./useForm";
 import validate from "../ValidateInfo";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 function Form() {
   const { handleChange, inputs, handleSubmit, errors } = useForm(validate);
