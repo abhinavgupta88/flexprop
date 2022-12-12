@@ -56,7 +56,7 @@ function CheckoutForm() {
     >
       <div
         style={{
-          maxWidth: "500px",
+          maxWidth: "100%",
           margin: "0 auto",
         }}
       >
