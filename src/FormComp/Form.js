@@ -7,10 +7,36 @@ import validate from "../ValidateInfo";
 
 function Form() {
   const { handleChange, inputs, handleSubmit, errors } = useForm(validate);
-
+  const [isPaymentLoading, setPaymentLoading] = useState(false);
+  const stripe = useStripe();
+  const elements = useElements();
+  const payMoney = async (e) => {
+    e.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+    setPaymentLoading(true);
+    const clientSecret = "sk_test_51MEF9YSE9lWcFf0NusHWNC8vQLeiBKYQMxwHse8YZf4jQRHFEAPybSObzWDMKdbp5ygko73Zbh5VNCrmVbB1kyJe00QxNL0Ryk";
+    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: "new user",
+        },
+      },
+    });
+    setPaymentLoading(false);
+    if (paymentResult.error) {
+      alert(paymentResult.error.message);
+    } else {
+      if (paymentResult.paymentIntent.status === "succeeded") {
+        alert("Success!");
+      }
+    }
+  };
   return (
     <div className="form">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <div className="form__row">
           
           <input
@@ -108,7 +134,14 @@ function Form() {
             onBlur={handleSubmit}
             autoComplete="off"
           />
-          <button>Register</button>
+          <h3> Registration Fee 500/- </h3>
+          <button
+              className="pay-button"
+              disabled={isPaymentLoading}
+            >
+              {isPaymentLoading ? "Loading..." : "Pay"}
+            </button>
+          <button  onClick = {payMoney}>Register</button>
         </div>
       </form>
     </div>
