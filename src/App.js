@@ -20,82 +20,14 @@ const App = () => {
   );
 };
 function CheckoutForm() {
-  const [isPaymentLoading, setPaymentLoading] = useState(false);
-  const stripe = useStripe();
-  const elements = useElements();
-  const payMoney = async (e) => {
-    e.preventDefault();
-    if (!stripe || !elements) {
-      return;
-    }
-    setPaymentLoading(true);
-    const clientSecret = "sk_test_51MEF9YSE9lWcFf0NusHWNC8vQLeiBKYQMxwHse8YZf4jQRHFEAPybSObzWDMKdbp5ygko73Zbh5VNCrmVbB1kyJe00QxNL0Ryk";
-    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: "new user",
-        },
-      },
-    });
-    setPaymentLoading(false);
-    if (paymentResult.error) {
-      alert(paymentResult.error.message);
-    } else {
-      if (paymentResult.paymentIntent.status === "succeeded") {
-        alert("Success!");
-      }
-    }
-  };
-
+  
   return (
-    <div
-      style={{
-        padding: "3rem",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "100%",
-          margin: "0 auto",
-        }}
-      >
-        <form
-          style={{
-            display: "block",
-            width: "100%",
-          }}
-          onSubmit = {payMoney}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <CardElement
-              className="card"
-              options={{
-                style: {
-                  base: {
-                    backgroundColor: "white"
-                  } 
-                },
-              }}
-            />
+    <div>
+           
       <h1>Yoga Classes</h1>
       <h1 >New Member Registration</h1>
       <Form />
-            <button
-              className="pay-button"
-              disabled={isPaymentLoading}
-            >
-              {isPaymentLoading ? "Loading..." : "Register"}
-            </button>
-          </div>
-        </form>
-      </div>
+     
     </div>
   );
 }
