@@ -13,6 +13,11 @@
   margin-left: 10px;
   padding-bottom: 20px;
 }
+.form{
+  padding: 10%;
+  width:calc(100% - 20%);
+
+}
 .selectAll {
   width: 600px;
 }
